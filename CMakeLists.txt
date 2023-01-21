@@ -10,7 +10,7 @@ FetchContent_Declare(SFML
         GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(alpha src/main.cpp )
+add_executable(alpha src/main.cpp src/game.cpp src/state.cpp)
 
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 

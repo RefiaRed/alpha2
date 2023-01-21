@@ -1,3 +1,11 @@
-//
-// Created by maike on 1/16/23.
-//
+#include "game.hpp"
+
+
+
+int main()
+{
+    Game game;
+    game.run();
+
+    return 0;
+}
