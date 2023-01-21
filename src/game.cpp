@@ -61,7 +61,7 @@ void Game::updateDt() {
 void Game::render() {
     window.clear();
     if(!this->states.empty())
-        this->states.top()->render();
+        this->states.top()->render(window);
 
     window.display();
 }

@@ -5,6 +5,8 @@
 MenuState::MenuState()
 : State(){
     std::cout <<"MenuState Here" <<std::endl;
+    this->bg.setSize(sf::Vector2f(1280, 720));
+    this->bg.setFillColor(sf::Color::Cyan);
 }
 
 
@@ -20,8 +22,8 @@ void MenuState::update() {
     this->updateKeybinds();
 }
 
-void MenuState::render() {
-
+void MenuState::render(sf::RenderWindow &renderWindow) {
+    renderWindow.draw(this->bg);
 }
 
 void MenuState::endState() {
@@ -31,3 +33,5 @@ void MenuState::endState() {
 void MenuState::updateKeybinds() {
     this->checkQuit();
 }
+
+

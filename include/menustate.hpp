@@ -5,7 +5,7 @@
 class MenuState :
         public State {
 private:
-
+    sf::RectangleShape bg;
 public:
     //Con-/Destructors
 
@@ -15,7 +15,7 @@ public:
     //Functions
 
     void update() override;
-    void render() override;
+    void render(sf::RenderWindow& renderWindow) override;
     void endState() override;
 
     void updateKeybinds() override;

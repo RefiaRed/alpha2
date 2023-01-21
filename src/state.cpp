@@ -18,3 +18,7 @@ const bool &State::getQuit() const {
     return this->callsQuit;
 }
 
+void State::render(sf::RenderWindow& renderWindow) {
+
+}
+

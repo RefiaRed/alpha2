@@ -1,21 +1,12 @@
 #pragma once
 
-#include <iostream>
-//#include <ctime>
-//#include <cstdlib>
-#include <vector>
-#include <stack>
-#include <map>
+#include "entity.hpp"
 
-#include "SFML/Graphics.hpp"
-#include "SFML/Window.hpp"
-#include "SFML/System.hpp"
-#include "SFML/Audio.hpp"
-#include "SFML/Network.hpp"
 
 class State{
 private:
-    bool callsQuit;
+
+    bool callsQuit{};
 
 public:
     //Con-/Destructors
@@ -24,7 +15,8 @@ public:
 
    //Functions
     virtual void update() = 0;
-    virtual void render() = 0;
+
+    virtual void render(sf::RenderWindow& renderWindow) = 0;
     virtual void endState() = 0;
 
     virtual void checkQuit();

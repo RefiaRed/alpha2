@@ -16,11 +16,12 @@ void BattleState::update() {
         std::cout << "BattleState update" << std::endl;
 
     this->updateKeybinds();
+    this->player.update();
 
 }
 
-void BattleState::render() {
-
+void BattleState::render(sf::RenderWindow& renderWindow) {
+    this->player.render(renderWindow);
 }
 
 void BattleState::endState() {
