@@ -3,6 +3,9 @@
 #include <iostream>
 //#include <ctime>
 //#include <cstdlib>
+#include <vector>
+#include <stack>
+#include <map>
 
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
@@ -12,7 +15,7 @@
 
 class State{
 private:
-
+    bool callsQuit;
 
 public:
     //Con-/Destructors
@@ -22,6 +25,11 @@ public:
    //Functions
     virtual void update() = 0;
     virtual void render() = 0;
+    virtual void endState() = 0;
 
+    virtual void checkQuit();
+    const bool& getQuit() const;
+
+    virtual void updateKeybinds() =0;
 };
 

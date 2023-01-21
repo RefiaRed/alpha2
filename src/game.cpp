@@ -4,19 +4,41 @@ void Game::initWindow() {
     window.create(sf::VideoMode(1280, 720), "Alpha2 Project", sf::Style::Close);
 }
 
+void Game::initStates() {
+    this->states.push(new BattleState);
+    this->states.push(new MenuState);
+}
 //Con-/Destructors
 Game::Game() {
     initWindow();
+    initStates();
 }
 
 Game::~Game() {
+    while (!this->states.empty()){
+        delete this->states.top();
+        this->states.pop();
+    }
 
 }
 
 //Functions
 void Game::update() {
 
-    updateEvents();
+    this->updateEvents();
+
+    if(!this->states.empty()) {
+        this->states.top()->update();
+
+        if(this->states.top()->getQuit()){
+            this->states.top()->endState();
+            delete this->states.top();
+            this->states.pop();
+        }
+    }
+    else{
+        this->window.close();
+    }
 }
 
 void Game::updateEvents() {
@@ -38,7 +60,8 @@ void Game::updateDt() {
 
 void Game::render() {
     window.clear();
-
+    if(!this->states.empty())
+        this->states.top()->render();
 
     window.display();
 }
@@ -51,6 +74,8 @@ void Game::run() {
         this->render();
     }
 }
+
+
 
 
 
