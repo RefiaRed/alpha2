@@ -16,9 +16,17 @@ private:
 
     std::stack<State*> states;
 
+    sf::Font font;
+
     //inits
     void initWindow();
     void initStates();
+    void initFont();
+
+    //Mouse positions
+    sf::Vector2i mousePosScreen;
+    sf::Vector2i mousePosWindow;
+    sf::Vector2f mousePosView;
 
 public:
     //Con-/Destructors
@@ -29,9 +37,12 @@ public:
     void update();
     void updateEvents();
     void updateDt();
+    virtual void updateMousePos();
 
     void render();
     void run();
+
+    sf::Vector2f getMousePosition();
 
 
 };

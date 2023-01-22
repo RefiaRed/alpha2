@@ -6,11 +6,15 @@
 class State{
 private:
 
-    bool callsQuit{};
+    bool callsQuit;
+
+protected:
+    sf::Font* font;
+    sf::Vector2f* mousePosView;
 
 public:
     //Con-/Destructors
-    State();
+    State(sf::Font* font,sf::Vector2f* mousePosView);
     virtual ~State();
 
    //Functions
@@ -19,9 +23,8 @@ public:
     virtual void render(sf::RenderWindow& renderWindow) = 0;
     virtual void endState() = 0;
 
-    virtual void checkQuit();
+    virtual void quit();
     const bool& getQuit() const;
 
-    virtual void updateKeybinds() =0;
 };
 

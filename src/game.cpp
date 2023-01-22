@@ -4,13 +4,22 @@ void Game::initWindow() {
     window.create(sf::VideoMode(1280, 720), "Alpha2 Project", sf::Style::Close);
 }
 
-void Game::initStates() {
-    this->states.push(new BattleState);
-    this->states.push(new MenuState);
+void Game::initFont() {
+    if(!font.loadFromFile("assets/rainyhearts.ttf"))
+        std::cout << "ERROR: COULDN'T LOAD FONT!" << std::endl;
 }
+
+void Game::initStates() {
+    this->states.push(new BattleState(&font, &mousePosView));
+    this->states.push(new MenuState(&font, &mousePosView));
+}
+
+
+
 //Con-/Destructors
 Game::Game() {
     initWindow();
+    initFont();
     initStates();
 }
 
@@ -29,6 +38,9 @@ void Game::update() {
 
     if(!this->states.empty()) {
         this->states.top()->update();
+        this->updateMousePos();
+
+        //std::printf("Mouse Pos: %f, %f \n", mousePosView.x, mousePosView.y);
 
         if(this->states.top()->getQuit()){
             this->states.top()->endState();
@@ -58,6 +70,12 @@ void Game::updateDt() {
     //std::cout << this->dt << "\n";
 }
 
+void Game::updateMousePos() {
+    this->mousePosScreen = sf::Mouse::getPosition();
+    this->mousePosWindow = sf::Mouse::getPosition(this->window);
+    this->mousePosView = this->window.mapPixelToCoords(sf::Mouse::getPosition(this->window));
+}
+
 void Game::render() {
     window.clear();
     if(!this->states.empty())
@@ -74,6 +92,10 @@ void Game::run() {
         this->render();
     }
 }
+
+
+
+
 
 
 

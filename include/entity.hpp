@@ -1,17 +1,7 @@
-#pragma once
+#pragma onceonce
 
-#include <iostream>
-#include <ctime> //IDK if needed
-#include <cstdlib> //IDK if needed
-#include <vector>
-#include <stack>
-#include <map>
+#include "button.hpp"
 
-#include "SFML/Graphics.hpp"
-#include "SFML/Window.hpp"
-#include "SFML/System.hpp"
-#include "SFML/Audio.hpp"
-#include "SFML/Network.hpp"
 
 class Entity{
 
@@ -27,5 +17,5 @@ public:
 
     //Functions
     virtual void update();
-    virtual void render(sf::RenderWindow& renderWindow);
+    virtual void render(sf::RenderWindow& window);
 };

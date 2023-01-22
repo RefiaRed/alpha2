@@ -1,16 +1,17 @@
 #include "state.hpp"
 
 //Con-/Destructors
-State::State() {
+State::State(sf::Font* font, sf::Vector2f* mousePosView) {
     this->callsQuit = false;
+    this->font = font;
+    this->mousePosView = mousePosView;
 }
 
 State::~State() {
 
 }
 
-void State::checkQuit() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+void State::quit() {
         this->callsQuit = true;
 }
 
@@ -21,4 +22,6 @@ const bool &State::getQuit() const {
 void State::render(sf::RenderWindow& renderWindow) {
 
 }
+
+
 

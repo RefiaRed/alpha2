@@ -11,15 +11,14 @@ private:
 
 public:
     //Con-/Destructors
-    BattleState();
-    virtual ~BattleState();
+    BattleState(sf::Font* font, sf::Vector2f* mousePosView);
+    ~BattleState() override;
 
     //Functions
     void update() override;
     void render(sf::RenderWindow& renderWindow) override;
     void endState() override;
 
-    void updateKeybinds() override;
 
 };
 

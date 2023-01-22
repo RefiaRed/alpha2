@@ -14,6 +14,6 @@ void Entity::update() {
 
 }
 
-void Entity::render(sf::RenderWindow &renderWindow) {
-    renderWindow.draw(this->shape);
+void Entity::render(sf::RenderWindow& window) {
+    window.draw(this->shape);
 }
