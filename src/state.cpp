@@ -1,7 +1,8 @@
 #include "state.hpp"
 
 //Con-/Destructors
-State::State(sf::Font* font, sf::Vector2f* mousePosView) {
+State::State(sf::Font* font, sf::Vector2f* mousePosView, std::stack<State*>* states) {
+    this->states = states;
     this->callsQuit = false;
     this->font = font;
     this->mousePosView = mousePosView;

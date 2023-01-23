@@ -9,9 +9,8 @@ void Game::initFont() {
         std::cout << "ERROR: COULDN'T LOAD FONT!" << std::endl;
 }
 
-void Game::initStates() {
-    this->states.push(new BattleState(&font, &mousePosView));
-    this->states.push(new MenuState(&font, &mousePosView));
+void Game::initState() {
+    this->states.push(new MenuState(&font, &mousePosView, &states)); // <- &n = sending addresses of n
 }
 
 
@@ -20,7 +19,7 @@ void Game::initStates() {
 Game::Game() {
     initWindow();
     initFont();
-    initStates();
+    initState();
 }
 
 Game::~Game() {
@@ -92,7 +91,6 @@ void Game::run() {
         this->render();
     }
 }
-
 
 
 

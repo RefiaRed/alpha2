@@ -9,12 +9,15 @@ private:
     bool callsQuit;
 
 protected:
+    std::stack<State*>* states;
     sf::Font* font;
     sf::Vector2f* mousePosView;
 
+    std::map<std::string, sf::Texture> textures;
+
 public:
     //Con-/Destructors
-    State(sf::Font* font,sf::Vector2f* mousePosView);
+    State(sf::Font* font,sf::Vector2f* mousePosView, std::stack<State*>* states);
     virtual ~State();
 
    //Functions

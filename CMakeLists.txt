@@ -11,7 +11,7 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 add_executable(alpha src/main.cpp src/game.cpp src/state.cpp src/battlestate.cpp src/menustate.cpp
-        src/entity.cpp src/button.cpp )
+        src/entity.cpp src/button.cpp src/animationcomponent.cpp )
 
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 

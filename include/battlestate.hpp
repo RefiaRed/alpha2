@@ -7,11 +7,21 @@
 class BattleState :
         public State {
 private:
-    Entity player;
+    sf::Sprite bg;
+    sf::Texture bgTexture;
 
+    Entity player;
+    Entity enemy;
+
+    Button attackButton;
+    Button healButton;
+    Button quitButton;
+
+    void initTextures();
+    void initEntities();
 public:
     //Con-/Destructors
-    BattleState(sf::Font* font, sf::Vector2f* mousePosView);
+    BattleState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<State*>* states);
     ~BattleState() override;
 
     //Functions

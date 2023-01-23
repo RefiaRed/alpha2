@@ -2,7 +2,7 @@
 
 //Con-/Destructors
 
-Button::Button() = default;;
+Button::Button() = default;
 
 
 Button::~Button() = default;

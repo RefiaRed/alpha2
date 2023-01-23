@@ -1,6 +1,5 @@
 #pragma once
 
-#include "battlestate.hpp"
 #include "menustate.hpp"
 
 
@@ -20,7 +19,7 @@ private:
 
     //inits
     void initWindow();
-    void initStates();
+    void initState();
     void initFont();
 
     //Mouse positions
