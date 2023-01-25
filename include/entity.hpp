@@ -1,7 +1,10 @@
-#pragma onceonce
+#pragma once
 
-#include "button.hpp"
+#include "headers.hpp"
+#include "statscomponent.hpp"
 
+
+class StatsComponent;
 
 class Entity{
 
@@ -11,16 +14,23 @@ protected:
     sf::Texture* spriteTexture;
     sf::Sprite sprite;
 
+
 public:
+    StatsComponent* statsComponent;
+
     //Con-/Destructors
     Entity();
     virtual ~Entity();
 
     void createSprite(sf::Texture* texture, float scale);
+    void createStatsComponent(int level, std::random_device& rd);
 
     //Functions
     virtual void update();
     virtual void render(sf::RenderWindow& window);
 
+
     void setPosition( float x, float y);
+
+
 };

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "headers.hpp"
 #include "menustate.hpp"
 
 
@@ -12,6 +13,7 @@ private:
 
     sf::Clock dtClock;
     float dt{};
+
 
     std::stack<State*> states;
 
@@ -41,7 +43,6 @@ public:
     void render();
     void run();
 
-    sf::Vector2f getMousePosition();
 
 
 };

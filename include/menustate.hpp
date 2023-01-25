@@ -1,7 +1,13 @@
 #pragma once
 
+#include "headers.hpp"
 #include "state.hpp"
 #include "battlestate.hpp"
+
+
+class State;
+class Button;
+class BattleState;
 
 class MenuState :
         public State {

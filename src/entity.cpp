@@ -8,14 +8,15 @@ Entity::Entity() {
 }
 
 Entity::~Entity() {
+    delete this->statsComponent;
 }
 
 
 void Entity::update() {
-
+    std::cout << this->statsComponent->debugPrint();
+    //this->statsComponent->gainExp(1);
 }
 
-//still crashing bc rendering
 void Entity::render(sf::RenderWindow& window) {
 
     window.draw(this->sprite);
@@ -32,3 +33,9 @@ void Entity::setPosition(float x, float y) {
     this->sprite.setPosition(x,y);
 
 }
+
+void Entity::createStatsComponent(int level, std::random_device& rd) {
+    this->statsComponent = new StatsComponent(level, rd);
+}
+
+

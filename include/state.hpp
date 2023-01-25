@@ -1,9 +1,12 @@
 #pragma once
 
+#include "headers.hpp"
+
+#include "button.hpp"
 #include "entity.hpp"
 
 
-class State{
+class State {
 private:
 
     bool callsQuit;
