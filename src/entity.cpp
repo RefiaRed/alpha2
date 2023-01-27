@@ -14,7 +14,7 @@ Entity::~Entity() {
 
 void Entity::update() {
     std::cout << this->statsComponent->debugPrint();
-    //this->statsComponent->gainExp(1);
+
 }
 
 void Entity::render(sf::RenderWindow& window) {
@@ -36,6 +36,13 @@ void Entity::setPosition(float x, float y) {
 
 void Entity::createStatsComponent(int level, std::random_device& rd) {
     this->statsComponent = new StatsComponent(level, rd);
+}
+
+void Entity::respawn(int lv, std::random_device& rd, Entity* target) {
+    int xP = (this->statsComponent->health + this->statsComponent->strength) / 2 ;
+    delete this->statsComponent;
+    target->statsComponent->gainExp(xP);
+    this->createStatsComponent(lv, rd);
 }
 
 

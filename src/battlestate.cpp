@@ -24,9 +24,7 @@ BattleState::BattleState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<
     this->quitButton.defineAll(1280.0/3*2+100, 720.0/3*3-300, 200, 50, "Quit", font, true);
 }
 
-BattleState::~BattleState(){
-
-}
+BattleState::~BattleState()= default;
 
 //Functions
 
@@ -209,6 +207,6 @@ void BattleState::battleLost() {
 
 void BattleState::battleWon() {
     std::cout << "PLAYER WON" << std::endl;
-    this->quit();
+    this->enemy.respawn(this->player.statsComponent->level, rd , &player);
 }
 

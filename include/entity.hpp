@@ -32,5 +32,7 @@ public:
 
     void setPosition( float x, float y);
 
+    void respawn(int lv, std::random_device& rd, Entity* target);
+
 
 };
