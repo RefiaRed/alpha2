@@ -9,6 +9,10 @@
 #include <cmath>
 #include <sstream>
 #include <random>
+#include <chrono>
+#include <thread>
+#include <fstream>
+
 
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"

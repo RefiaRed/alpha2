@@ -13,7 +13,7 @@ Entity::~Entity() {
 
 
 void Entity::update() {
-    std::cout << this->statsComponent->debugPrint();
+    //std::cout << this->statsComponent->debugPrint();
 
 }
 
@@ -43,6 +43,8 @@ void Entity::respawn(int lv, std::random_device& rd, Entity* target) {
     delete this->statsComponent;
     target->statsComponent->gainExp(xP);
     this->createStatsComponent(lv, rd);
+    this->statsComponent->gainExp(xP);
+    this->statsComponent->hp = this->statsComponent->hpMax;
 }
 
 

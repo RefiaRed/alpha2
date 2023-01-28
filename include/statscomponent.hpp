@@ -16,7 +16,6 @@ public:
     int strength;
     int speed;
 
-    int randomInt;
     bool hasTurn = false;
 
     //Stats
@@ -38,6 +37,7 @@ public:
     //Actions
     void attack(Entity* target);
     void heal();
+    void rollNewStats(std::random_device& rd);
 
 
 };
