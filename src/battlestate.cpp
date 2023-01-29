@@ -109,7 +109,9 @@ void BattleState::endState() {
 
 void BattleState::initTextures() {
 
-    if(!this->textures["PLAYER"].loadFromFile("assets/placeholder.png"))
+    if(!this->textures["PLAYER"].loadFromFile("assets/char1_idle.png"))
+        std::printf("ERROR PLAYER TEXTURE NOT LOADED IN!\n");
+    if(!this->textures["ENEMY"].loadFromFile("assets/placeholder.png"))
         std::printf("ERROR PLAYER TEXTURE NOT LOADED IN!\n");
 
 }
@@ -131,7 +133,7 @@ void BattleState::initEntities() {
 }
 
 void BattleState::spawnEnemy() {
-    this->enemy.createSprite(&textures["PLAYER"], -0.7, 0.7 );
+    this->enemy.createSprite(&textures["ENEMY"], -0.7, 0.7 );
     this->enemy.setPosition(1280.0/2 - 100,175);
     this->enemy.createStatsComponent(1, rd);
 }
