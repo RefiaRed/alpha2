@@ -11,12 +11,13 @@ private:
     sf::RenderWindow window;
     sf::Event event{};
 
+
     sf::Clock dtClock;
     float dt{};
 
 
     std::stack<State*> states;
-
+    ScoreManager scoreManager;
     sf::Font font;
 
     //inits
@@ -24,12 +25,11 @@ private:
     void initState();
     void initFont();
 
-    //Mouse positions
-    sf::Vector2i mousePosScreen;
-    sf::Vector2i mousePosWindow;
+    //Mouse position
     sf::Vector2f mousePosView;
 
 public:
+
     //Con-/Destructors
     Game();
     virtual ~Game();

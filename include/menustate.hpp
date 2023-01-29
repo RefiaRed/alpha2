@@ -14,17 +14,21 @@ class MenuState :
 private:
     sf::RectangleShape bg;
     sf::Texture bgTexture;
+    sf::RectangleShape scoreBg;
 
     Button startButton;
     Button eraseButton;
     Button quitButton;
+
+    sf::Text scoreText;
     //Inits
     void initBackground();
 
 
 public:
+
     //Con-/Destructors
-    MenuState(sf::Font* font,sf::Vector2f* mousePosView, std::stack<State*>* states);
+    MenuState(sf::Font* font,sf::Vector2f* mousePosView, std::stack<State*>* states, ScoreManager* scoreManager);
     ~MenuState() override;
 
     //Functions

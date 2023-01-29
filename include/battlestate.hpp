@@ -16,6 +16,7 @@ private:
     sf::Sprite bg;
     sf::Texture bgTexture;
 
+    sf::RectangleShape overlayBg;
     sf::RectangleShape pauseBg;
 
     Entity player;
@@ -36,6 +37,8 @@ private:
     sf::Text infoText;
     sf::Text scoreText;
     std::stringstream scoreStream;
+
+    sf::Text wonText;
 
     sf::Text roundText;
     std::stringstream roundStream;
@@ -60,13 +63,13 @@ public:
 
 
     //Con-/Destructors
-    BattleState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<State*>* states);
+    BattleState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<State*>* states, ScoreManager* scoreManager);
     ~BattleState() override;
 
     //Functions
-    virtual void update() override;
-    virtual void render(sf::RenderWindow& renderWindow) override;
-    virtual void endState() override;
+    void update() override;
+    void render(sf::RenderWindow& renderWindow) override;
+    void endState() override;
 
     void spawnEnemy();
 
@@ -79,9 +82,9 @@ public:
     void battleLost();
     void battleWon();
 
-    void InitStatInfo();
-    void UpdateStatInfo();
-    void UpdateUI();
+    void initStatInfo();
+    void updateStatInfo();
+    void updateUI();
 
 
 };

@@ -10,7 +10,7 @@ void Game::initFont() {
 }
 
 void Game::initState() {
-    this->states.push(new MenuState(&font, &mousePosView, &states)); // <- &n = sending addresses of n
+    this->states.push(new MenuState(&font, &mousePosView, &states, &scoreManager)); // <- &n = sending addresses of n
 }
 
 
@@ -20,6 +20,7 @@ Game::Game() {
     initWindow();
     initFont();
     initState();
+    scoreManager.initScoreFile();
 }
 
 Game::~Game() {
@@ -70,8 +71,6 @@ void Game::updateDt() {
 }
 
 void Game::updateMousePos() {
-    this->mousePosScreen = sf::Mouse::getPosition();
-    this->mousePosWindow = sf::Mouse::getPosition(this->window);
     this->mousePosView = this->window.mapPixelToCoords(sf::Mouse::getPosition(this->window));
 }
 

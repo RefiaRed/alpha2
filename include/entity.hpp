@@ -22,7 +22,7 @@ public:
     Entity();
     virtual ~Entity();
 
-    void createSprite(sf::Texture* texture, float scale);
+    void createSprite(sf::Texture* texture, float scaleX, float scaleY);
     void createStatsComponent(int level, std::random_device& rd);
 
     //Functions

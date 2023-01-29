@@ -1,10 +1,11 @@
 #include "battlestate.hpp"
 
 //Con-/Destructors
-BattleState::BattleState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<State*>* states)
-    : State(font, mousePosView, states){
+BattleState::BattleState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<State*>* states, ScoreManager* scoreManager)
+    : State(font, mousePosView, states, scoreManager){
     this->font = font;
     this->mousePosView = mousePosView;
+    this->scoreManager = scoreManager;
     this->states = states;
     this->infoText.setString("An Enemy approaches");
 
@@ -17,15 +18,20 @@ BattleState::BattleState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<
         std::printf("ERROR BG TEXTURE NOT LOADED IN MENU!\n");
 
     this->bg.setTexture(this->bgTexture);
-    this->bg.setScale(sf::Vector2f(0.5,0.5));
-    this->bg.setPosition(sf::Vector2f(-200,0));
+    this->bg.setScale(sf::Vector2f(0.8,0.8));
+    this->bg.setPosition(sf::Vector2f(0,-300));
 
-    this->attackButton.defineAll(1280.0/3*2+100, 720.0/3, 200, 50, "Attack", font, true);
-    this->healButton.defineAll(1280.0/3*2+100, 720.0/3*2-150, 200, 50, "Heal", font, true);
-    this->quitButton.defineAll(1280.0/3*2+100, 720.0/3*3-300, 200, 50, "Quit", font, true);
+    this->overlayBg.setFillColor(sf::Color(0,0,0,200));
+    this->overlayBg.setSize(sf::Vector2f(1280, 100));
+    this->overlayBg.setPosition(sf::Vector2f(0,0));
 
 
-    this->InitStatInfo();
+    this->attackButton.defineAll(1280.0/2, 720.0-100, 150, 50, "Attack", font, true);
+    this->healButton.defineAll(1280.0/2 + 225, 720.0-100, 150, 50, "Heal", font, true);
+    this->quitButton.defineAll(1280.0/2 + 450, 720.0-100, 150, 50, "Quit", font, true);
+
+
+    this->initStatInfo();
     this->scoreText.setFont(*this->font);
     this->scoreText.setCharacterSize(35);
     this->scoreText.setString(scoreStream.str());
@@ -34,11 +40,16 @@ BattleState::BattleState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<
     this->roundText.setFont(*this->font);
     this->roundText.setCharacterSize(35);
     this->roundText.setString(roundStream.str());
-    this->roundText.setPosition(1280.0/3 * 2 - 50, 10.0);
+    this->roundText.setPosition(50 , 10.0);
 
     this->infoText.setFont(*this->font);
     this->infoText.setCharacterSize(35);
-    this->infoText.setPosition( 50, 720.0/4 * 3 + 20);
+    this->infoText.setPosition( 50, 720.0/4 * 3 + 50);
+
+    this->wonText.setFont(*this->font);
+    this->wonText.setCharacterSize(45);
+    this->wonText.setPosition( 1280.0/2 - 100, 720.0/4 - 150);
+    this->wonText.setString(" ");
 
 
 
@@ -65,23 +76,25 @@ void BattleState::update() {
 
 void BattleState::render(sf::RenderWindow& renderWindow) {
     renderWindow.draw(this->bg);
+    renderWindow.draw(this->overlayBg);
     attackButton.render(renderWindow);
     healButton.render(renderWindow);
     quitButton.render(renderWindow);
     this->player.render(renderWindow);
     this->enemy.render(renderWindow);
 
-    renderWindow.draw(this->statInfoE);
-    renderWindow.draw(this->statInfoP);
-    renderWindow.draw(this->scoreText);
-    renderWindow.draw(this->roundText);
-    renderWindow.draw(this->infoText);
+    renderWindow.draw(statInfoE);
+    renderWindow.draw(statInfoP);
+    renderWindow.draw(scoreText);
+    renderWindow.draw(roundText);
+    renderWindow.draw(infoText);
 
 
     if(isPaused){
-        renderWindow.draw(this->pauseBg);
+        renderWindow.draw(pauseBg);
         continueButton.render(renderWindow);
         exitButton.render(renderWindow);
+        renderWindow.draw(wonText);
 
     }
 
@@ -91,6 +104,7 @@ void BattleState::render(sf::RenderWindow& renderWindow) {
 void BattleState::endState() {
     // LATER: add score to list here
     std::cout <<"Ending BattleState" <<std::endl;
+    this->scoreManager->updateScores(scoreCount);
 }
 
 void BattleState::initTextures() {
@@ -101,8 +115,8 @@ void BattleState::initTextures() {
 }
 
 void BattleState::initEntities() {
-    this->player.createSprite(&textures["PLAYER"], 0.7);
-    this->player.setPosition(500,175);
+    this->player.createSprite(&textures["PLAYER"], 0.7, 0.7);
+    this->player.setPosition(1280.0/2 + 100,175);
     this->player.createStatsComponent(1, rd);
 
     this->spawnEnemy();
@@ -117,8 +131,8 @@ void BattleState::initEntities() {
 }
 
 void BattleState::spawnEnemy() {
-    this->enemy.createSprite(&textures["PLAYER"], 0.7);
-    this->enemy.setPosition(100,175);
+    this->enemy.createSprite(&textures["PLAYER"], -0.7, 0.7 );
+    this->enemy.setPosition(1280.0/2 - 100,175);
     this->enemy.createStatsComponent(1, rd);
 }
 
@@ -134,15 +148,17 @@ void BattleState::battle() {
 
 }
 
-void BattleState::setInitiative() {
+void BattleState::setInitiative()  {
     if(this->player.statsComponent->speed >= this->enemy.statsComponent->speed ) {
         player.statsComponent->hasTurn = true;
-        std::cout << "PLAYER starts" << std::endl;
+        infoText.setString("You start");
+        std::cout << "PLAYER starts." << std::endl;
 
     }
     else{
         enemy.statsComponent->hasTurn = true;
         std::cout << "ENEMY starts" << std::endl;
+        infoText.setString("The enemy starts.");
     }
 
 
@@ -151,14 +167,13 @@ void BattleState::setInitiative() {
 
 void BattleState::playerTurn(){
     using namespace std::chrono_literals;
-    //this->infoText.setString("Your turn! \n What do you want to do?");
-    UpdateUI();
+    updateUI();
 
             //Attack
             if (attackButton.isClicked()) {
                 this->player.statsComponent->hasTurn = false;
                 infoText.setString("You attack the enemy!");
-                UpdateUI();
+                updateUI();
                 std::this_thread::sleep_for(0.5s);
                 this->player.statsComponent->attack(&enemy);
 
@@ -169,7 +184,7 @@ void BattleState::playerTurn(){
 
                     this->enemy.statsComponent->hasTurn = true;
                 }
-                UpdateUI();
+                updateUI();
                 ++this->scoreCount;
 
 
@@ -179,7 +194,7 @@ void BattleState::playerTurn(){
             if (healButton.isClicked()) {
                 this->player.statsComponent->hasTurn = false;
                 infoText.setString("You fully heal yourself.");
-                UpdateUI();
+                updateUI();
                 std::this_thread::sleep_for(0.5s);
                 if(this->player.statsComponent->hp < this->player.statsComponent->hpMax
                    && this->player.statsComponent->heals > 0){
@@ -188,25 +203,24 @@ void BattleState::playerTurn(){
 
                 this->enemy.statsComponent->hasTurn = true;
                 ++this->scoreCount;
-                UpdateUI();
-                ;
+                updateUI();
+
             }
             //Quit
             if (quitButton.isClicked()) {
-
                 quit();
             }
             /*--------------isPaused------------------------*/
             //Continue
             if (continueButton.isClicked()) {
                 std::cout << "Battle continues" << std::endl;
-                UpdateUI();
+                updateUI();
                 this->enemy.respawn(this->player.statsComponent->level, rd , &player);
                 this->continueButton.setActivity(false);
                 this->exitButton.setActivity(false);
                 this->isPaused = false;
                 ++this->roundCount;
-                UpdateUI();
+                updateUI();
 
                 this->setInitiative();
                 std::this_thread::sleep_for(0.5s);
@@ -217,7 +231,6 @@ void BattleState::playerTurn(){
             }
             //Exit
             if (exitButton.isClicked()) {
-                std::cout << "Battle ends" << std::endl;
                 this->quit();
             }
 
@@ -232,14 +245,14 @@ void BattleState::enemyTurn(){
     if(this->enemy.statsComponent->hasTurn){
         std::cout << "ENEMY approaches" << std::endl;
         this->infoText.setString("It's the enemy's turn");
-        UpdateUI();
+        updateUI();
         std::this_thread::sleep_for(0.5s);
 
         switch(distLow(rd)) {
             case PASS:
                 std::cout << "ENEMY passes" << std::endl;
                 this->infoText.setString("The enemy stares at you, menacingly.");
-                UpdateUI();
+                updateUI();
                 std::this_thread::sleep_for(0.5s);
                 this->player.statsComponent->hasTurn = true;
                 this->enemy.statsComponent->hasTurn = false;
@@ -247,12 +260,14 @@ void BattleState::enemyTurn(){
 
             case HEAL:
                 std::cout << "ENEMY heals" << std::endl;
-                this->infoText.setString("The enemy heals themselves.");
-                UpdateUI();
+                this->infoText.setString("The enemy tries to heal themselves.\nBut nothing happened");
+                updateUI();
 
                 if (this->enemy.statsComponent->hp < this->enemy.statsComponent->hpMax
                     && this->enemy.statsComponent->heals > 0) {
                     this->enemy.statsComponent->heal();
+                    this->infoText.setString("The enemy heals themselves.");
+                    updateUI();
                 }
 
                 std::this_thread::sleep_for(0.5s);
@@ -263,9 +278,9 @@ void BattleState::enemyTurn(){
             case ATTACK:
                 std::cout << "Enemy attacks" << std::endl;
                 this->infoText.setString("The enemy attacks you!");
-                UpdateUI();
+                updateUI();
 
-                this->player.statsComponent->attack(&player);
+                this->enemy.statsComponent->attack(&player);
 
                 if (this->player.statsComponent->hp <= 0)
                     this->battleLost();
@@ -278,22 +293,27 @@ void BattleState::enemyTurn(){
 
                 break;
         }
-        UpdateUI();
+        updateUI();
     }
 }
 
 
 void BattleState::battleLost() {
-    std::cout << "PLAYER LOST" << std::endl;
-    this->quit();
+    infoText.setString("You lost.");
+    updateUI();
+    enemy.statsComponent->hasTurn = false;
+    this->attackButton.setActivity(false);
+    this->healButton.setActivity(false);
+    player.statsComponent->hasTurn = true;
+
 }
 
 void BattleState::battleWon() {
     using namespace std::chrono_literals;
-    UpdateUI();
-    std::cout << "PLAYER WON" << std::endl;
+    updateUI();
     this->scoreCount =  this->scoreCount + 100;
-    UpdateUI();
+    this->wonText.setString("You won! \n" + scoreStream.str());
+    updateUI();
 
     //Stop Battle
     this->attackButton.setActivity(false);
@@ -305,9 +325,10 @@ void BattleState::battleWon() {
 
     //Init Screen
     this->pauseBg.setSize(sf::Vector2f(1280,720));
-    this->pauseBg.setFillColor(sf::Color(0,0,0,200));
+    this->pauseBg.setFillColor(sf::Color(0,0,0,230));
     this->continueButton.defineAll(1280.0/2 - 100, 720.0/2-150, 200, 50, "Continue", font, true);
     this->exitButton.defineAll(1280.0/2 - 100, 720.0/2, 200, 50, "Quit", font, true);
+
 
 
     //Button logic
@@ -318,59 +339,51 @@ void BattleState::battleWon() {
 
 }
 
-void BattleState::InitStatInfo() {
+void BattleState::initStatInfo() {
     this->scoreStream << "Score: " << this->scoreCount;
     this->roundStream << "Round: " << this->roundCount;
 
     this->pStats << "PLAYER LV: " << this->player.statsComponent->level << "\n"
                  << "HEALTH: " << this->player.statsComponent->hp << " / "<<  this->player.statsComponent->hpMax << "\n"
-                 << "HEALS: " << this->player.statsComponent->heals << " / " << "3"  << "\n"
-                 << "ATK: " << this->player.statsComponent->atk  << "\n"
-                 << "DEF: " << this->player.statsComponent->def;
+                 << "HEALS: " << this->player.statsComponent->heals << " / " << "3";
 
     this->eStats << "ENEMY LV: " << this->enemy.statsComponent->level << "\n"
                  << "HEALTH: " << this->enemy.statsComponent->hp << " / "<<  this->enemy.statsComponent->hpMax << "\n"
-                 << "HEALS: " << this->enemy.statsComponent->heals << " / " << "3"  << "\n"
-                 << "ATK: " << this->enemy.statsComponent->atk  << "\n"
-                 << "DEF: " << this->enemy.statsComponent->def;
+                 << "HEALS: " << this->enemy.statsComponent->heals << " / " << "3";
 
     // NOTED SIDE POSITION  (1280.0/4 - 200, 720.0/4 * 3 + 20)
 
     this->statInfoP.setFont(*font);
     this->statInfoP.setCharacterSize(25);
     this->statInfoP.setString(pStats.str());
-    this->statInfoP.setPosition(1280.0/3 * 2 + 200, 720.0/4 - 100);
+    this->statInfoP.setPosition(1280.0/4 * 2 -50, 10);
 
     this->statInfoE.setFont(*font);
     this->statInfoE.setCharacterSize(25);
     this->statInfoE.setString(eStats.str());
-    this->statInfoE.setPosition(1280.0/3 * 2 - 50, 720.0/4 - 100);
+    this->statInfoE.setPosition(1280.0/4 * 1 - 50, 10);
 
 }
 
-void BattleState::UpdateStatInfo() {
+void BattleState::updateStatInfo() {
     this->pStats.str(std::string());
     this->eStats.str(std::string());
 
 
     this->pStats << "PLAYER LV: " << this->player.statsComponent->level << "\n"
                  << "HEALTH: " << this->player.statsComponent->hp << " / "<<  this->player.statsComponent->hpMax << "\n"
-                 << "HEALS: " << this->player.statsComponent->heals << " / " << "3"  << "\n"
-                 << "ATK: " << this->player.statsComponent->atk  << "\n"
-                 << "DEF: " << this->player.statsComponent->def;
+                 << "HEALS: " << this->player.statsComponent->heals << " / " << "3";
 
     this->eStats << "ENEMY LV: " << this->enemy.statsComponent->level << "\n"
                  << "HEALTH: " << this->enemy.statsComponent->hp << " / "<<  this->enemy.statsComponent->hpMax << "\n"
-                 << "HEALS: " << this->enemy.statsComponent->heals << " / " << "3"  << "\n"
-                 << "ATK: " << this->enemy.statsComponent->atk  << "\n"
-                 << "DEF: " << this->enemy.statsComponent->def;
+                 << "HEALS: " << this->enemy.statsComponent->heals << " / " << "3";
 
     this->statInfoP.setString(pStats.str());
     this->statInfoE.setString(eStats.str());
 
 }
 
-void BattleState::UpdateUI() {
+void BattleState::updateUI() {
     // Update Score
     this->scoreStream.str(std::string());
     this->scoreStream << "Score: " << this->scoreCount;
@@ -380,8 +393,9 @@ void BattleState::UpdateUI() {
     this->roundStream.str(std::string());
     this->roundStream << "Round: " << this->roundCount;
     this->roundText.setString(roundStream.str());
+    ;
 
-    UpdateStatInfo();
+    updateStatInfo();
 
 
 

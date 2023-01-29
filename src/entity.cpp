@@ -22,11 +22,11 @@ void Entity::render(sf::RenderWindow& window) {
     window.draw(this->sprite);
 }
 
-void Entity::createSprite(sf::Texture* texture, float scale) {
+void Entity::createSprite(sf::Texture* texture, float scaleX, float scaleY ) {
     this->spriteTexture = texture;
     this->sprite.setTexture(*this->spriteTexture);
     this->sprite.setTextureRect(sf::IntRect (0,0,222, 480));
-    this->sprite.setScale(sf::Vector2f(scale,scale));
+    this->sprite.setScale(sf::Vector2f(scaleX,scaleY));
 }
 
 void Entity::setPosition(float x, float y) {
