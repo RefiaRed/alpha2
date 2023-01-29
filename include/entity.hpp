@@ -29,9 +29,7 @@ public:
     virtual void update();
     virtual void render(sf::RenderWindow& window);
 
-
     void setPosition( float x, float y);
-
     void respawn(int lv, std::random_device& rd, Entity* target);
 
 

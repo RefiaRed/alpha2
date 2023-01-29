@@ -10,10 +10,8 @@ State::State(sf::Font* font, sf::Vector2f* mousePosView, std::stack<State*>* sta
 
 }
 
-State::~State() {
-
-}
-
+State::~State() = default;
+//Functions
 void State::quit() {
         this->callsQuit = true;
 

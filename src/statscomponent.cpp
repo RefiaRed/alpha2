@@ -1,6 +1,6 @@
 #include "statscomponent.hpp"
 
-
+//Con-/Destructors
 StatsComponent::StatsComponent(int level, std::random_device& rd) {
     std::uniform_int_distribution<int> distLow(1,3);
     this->level = level;
@@ -24,7 +24,7 @@ StatsComponent::~StatsComponent() {
 
 
 }
-
+//Functions
 void StatsComponent::updateStats() {
     int newHealth;
     int newStrength;
@@ -62,20 +62,6 @@ void StatsComponent::gainExp(const int xp) {
     this->levelUp();
 }
 
-std::string StatsComponent::debugPrint() const {
-
-    std::stringstream ss;
-    ss << "Lv:" <<this->level <<"   " << "XP: " <<this->exp <<"\n"
-            << "++++++++++++++++++++++++" <<"\n"
-            << "HPMax: " <<this->hpMax <<"\n"
-            << "HP: " <<this->hp <<"   "<< "Heals: " <<this->heals <<"\n"
-            << "ATK: " <<this->atk <<"   "<< "DEF: " <<this->def <<"\n"
-            << "++++++++++++++++++++++++" <<"\n"
-            << "++++++++++++++++++++++++" <<"\n";
-
-    return ss.str();
-}
-
 //Actions
 void StatsComponent::attack(Entity* target) {
     if(target->statsComponent->def < this->atk){
@@ -95,7 +81,8 @@ void StatsComponent::heal() {
 
 }
 
-void StatsComponent::rollNewStats(std::random_device& rd){
+/*
+    void StatsComponent::rollNewStats(std::random_device& rd){
     std::uniform_int_distribution<int> distLow(1,3);
     this->level = level;
     this->exp = 0;
@@ -116,6 +103,5 @@ void StatsComponent::rollNewStats(std::random_device& rd){
     atk    = this->strength + (this->strength /2);
     def    = this->strength;
 }
-
-
+*/
 

@@ -4,28 +4,19 @@
 
 MenuState::MenuState(sf::Font* font, sf::Vector2f* mousePosView, std::stack<State*>* states, ScoreManager* scoreManager)
 : State(font, mousePosView, states, scoreManager){
-    std::cout <<"MenuState Here" <<std::endl;
+
     this->states = states;
     this->font = font;
     this->scoreManager = scoreManager;
-    initBackground();
-
-    this->startButton.defineAll(bg.getSize().x/2 - 100, bg.getSize().y/3, 200, 50, "Start", font, true);
-    this->eraseButton.defineAll(bg.getSize().x/2 - 100, bg.getSize().y/3*2-150, 200, 50, "Erase Score", font, true);
-    this->quitButton.defineAll(bg.getSize().x/2 - 100, bg.getSize().y/3*3-300, 200, 50, "Quit", font, true);
-
     this->scoreManager->getScores();
 
-    this->scoreText.setFont(*this->font);
-    this->scoreText.setCharacterSize(45);
-    this->scoreText.setPosition( 100, bg.getSize().y/3);
+    initBackground();
+    initUI();
 
 }
 
 
-MenuState::~MenuState() {
-
-}
+MenuState::~MenuState() = default;
 
 //Functions
 void MenuState::update() {
@@ -72,8 +63,18 @@ void MenuState::initBackground() {
     this->bg.setTexture(&this->bgTexture);
     this->bg.setSize(sf::Vector2f(1280, 720));
     this->scoreBg.setFillColor(sf::Color(0,0,0,200));
-    this->scoreBg.setSize(sf::Vector2f(1280 / 3, 720));
+    this->scoreBg.setSize(sf::Vector2f(1280.0 / 3, 720));
 
+}
+
+void MenuState::initUI() {
+    this->startButton.defineAll(bg.getSize().x/2 - 100, bg.getSize().y/3, 200, 50, "Start", font, true);
+    this->eraseButton.defineAll(bg.getSize().x/2 - 100, bg.getSize().y/3*2-150, 200, 50, "Erase Score", font, true);
+    this->quitButton.defineAll(bg.getSize().x/2 - 100, bg.getSize().y/3*3-300, 200, 50, "Quit", font, true);
+
+    this->scoreText.setFont(*this->font);
+    this->scoreText.setCharacterSize(45);
+    this->scoreText.setPosition( 100, bg.getSize().y/3);
 }
 
 

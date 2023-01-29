@@ -4,7 +4,6 @@
 
 Button::Button() = default;
 
-
 Button::~Button() = default;
 
 //Functions
@@ -15,7 +14,7 @@ void Button::update(sf::Vector2f mousePos){
 
     //Button Feedback
     if (hovering){
-        this->btnText.setFillColor(sf::Color::Cyan);
+        this->btnText.setFillColor(sf::Color::Black);
         this->btnShape.setFillColor(hoverColor);
     }
     else{
@@ -32,22 +31,8 @@ void Button::render(sf::RenderWindow& renderWindow) {
     renderWindow.draw(this->btnText);
 }
 
-//Button Mode
-
-bool Button::isHovering() const {
-    return hovering;
-}
-
-bool Button::isClicked() const {
-    return hovering && sf::Mouse::isButtonPressed(sf::Mouse::Left);
-}
-
-void Button::setActivity(bool activity) {
-    this->isSetActive = activity;
-}
-
 void Button::defineAll(float x, float y, float width, float height,
-                    std::string text, sf::Font* btnFont, bool activity) {
+                       std::string text, sf::Font* btnFont, bool activity) {
     hovering = false;
     isSetActive = activity;
 
@@ -67,3 +52,14 @@ void Button::defineAll(float x, float y, float width, float height,
             this->btnShape.getPosition().y + 5
     );
 }
+
+//Button Modes
+
+bool Button::isClicked() const {
+    return hovering && sf::Mouse::isButtonPressed(sf::Mouse::Left);
+}
+
+void Button::setActivity(bool activity) {
+    this->isSetActive = activity;
+}
+

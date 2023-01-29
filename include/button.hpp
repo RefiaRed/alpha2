@@ -24,7 +24,8 @@ public:
     void defineAll(float x, float y, float width, float height,
                 std::string text, sf::Font* btnFont, bool activity);
 
-    bool isHovering() const;
+    //Button Modes
+
     bool isClicked() const;
     void setActivity(bool activity);
 };

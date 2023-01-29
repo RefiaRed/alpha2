@@ -1,18 +1,16 @@
 #include "scoremanager.hpp"
 
 
-
+//Con-/Destructors
 ScoreManager::ScoreManager() {
 
     getScores();
 
-
 }
 
-ScoreManager::~ScoreManager() {
+ScoreManager::~ScoreManager() = default;
 
-}
-
+//Functions
 void ScoreManager::compareScores() {
     //sorts greatest to smallest
     scores.resize(6);

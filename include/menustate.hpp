@@ -23,6 +23,7 @@ private:
     sf::Text scoreText;
     //Inits
     void initBackground();
+    void initUI();
 
 
 public:

@@ -1,19 +1,4 @@
 #include "game.hpp"
-//inits
-void Game::initWindow() {
-    window.create(sf::VideoMode(1280, 720), "Alpha2 Project", sf::Style::Close);
-}
-
-void Game::initFont() {
-    if(!font.loadFromFile("assets/rainyhearts.ttf"))
-        std::cout << "ERROR: COULDN'T LOAD FONT!" << std::endl;
-}
-
-void Game::initState() {
-    this->states.push(new MenuState(&font, &mousePosView, &states, &scoreManager)); // <- &n = sending addresses of n
-}
-
-
 
 //Con-/Destructors
 Game::Game() {
@@ -29,6 +14,19 @@ Game::~Game() {
         this->states.pop();
     }
 
+}
+//inits
+void Game::initWindow() {
+    window.create(sf::VideoMode(1280, 720), "Alpha2 Project", sf::Style::Close);
+}
+
+void Game::initFont() {
+    if(!font.loadFromFile("assets/rainyhearts.ttf"))
+        std::cout << "ERROR: COULDN'T LOAD FONT!" << std::endl;
+}
+
+void Game::initState() {
+    this->states.push(new MenuState(&font, &mousePosView, &states, &scoreManager)); // <- &n = sending addresses of n
 }
 
 //Functions
@@ -63,13 +61,6 @@ void Game::updateEvents() {
 
 }
 
-void Game::updateDt() {
-    //updating deltaTime based on updating and rendering 1 frame
-    this->dt = this->dtClock.restart().asSeconds();
-
-    //std::cout << this->dt << "\n";
-}
-
 void Game::updateMousePos() {
     this->mousePosView = this->window.mapPixelToCoords(sf::Mouse::getPosition(this->window));
 }
@@ -85,7 +76,6 @@ void Game::render() {
 void Game::run() {
     while(this->window.isOpen())
     {
-        this->updateDt();
         this->update();
         this->render();
     }

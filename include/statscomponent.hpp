@@ -23,21 +23,19 @@ public:
     int hpMax;
     int atk;
     int def;
-
+    //Con-/Destructors
     StatsComponent(int level, std::random_device& rd);
     ~StatsComponent();
 
+    //Functions
     void updateStats();
     void calculateExpNext();
     void levelUp();
     void gainExp(int xp);
 
-    std::string debugPrint() const;
-
     //Actions
     void attack(Entity* target);
     void heal();
-    void rollNewStats(std::random_device& rd);
 
 
 };
