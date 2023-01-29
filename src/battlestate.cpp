@@ -65,12 +65,16 @@ void BattleState::initStatInfo() {
     this->roundStream << "Round: " << this->roundCount;
 
     this->pStats << "PLAYER LV: " << this->player.statsComponent->level << "\n"
-                 << "HEALTH: " << this->player.statsComponent->hp << " / "<<  this->player.statsComponent->hpMax << "\n"
-                 << "HEALS: " << this->player.statsComponent->heals << " / " << "3";
+                 << "HEALTH: " << this->player.statsComponent->hp << " / " <<  this->player.statsComponent->hpMax
+                 << "   HEALS: " << this->player.statsComponent->heals << " / " << "3" << "\n"
+                 <<"ATK: " << this->player.statsComponent->atk
+                 << "   DEF: " << this->player.statsComponent->def;
 
     this->eStats << "ENEMY LV: " << this->enemy.statsComponent->level << "\n"
-                 << "HEALTH: " << this->enemy.statsComponent->hp << " / "<<  this->enemy.statsComponent->hpMax << "\n"
-                 << "HEALS: " << this->enemy.statsComponent->heals << " / " << "3";
+                 << "HEALTH: " << this->enemy.statsComponent->hp << " / "<<  this->enemy.statsComponent->hpMax
+                 << "   HEALS: " << this->enemy.statsComponent->heals << " / " << "3" << "\n"
+                 << "ATK: " << this->enemy.statsComponent->atk
+                 << "    DEF: " << this->enemy.statsComponent->def;
 
     // NOTED SIDE POSITION  (1280.0/4 - 200, 720.0/4 * 3 + 20)
 
@@ -385,12 +389,16 @@ void BattleState::updateStatInfo() {
 
 
     this->pStats << "PLAYER LV: " << this->player.statsComponent->level << "\n"
-                 << "HEALTH: " << this->player.statsComponent->hp << " / "<<  this->player.statsComponent->hpMax << "\n"
-                 << "HEALS: " << this->player.statsComponent->heals << " / " << "3";
+                 << "HEALTH: " << this->player.statsComponent->hp << " / " <<  this->player.statsComponent->hpMax
+                 << "   HEALS: " << this->player.statsComponent->heals << " / " << "3" << "\n"
+                 <<"ATK: " << this->player.statsComponent->atk
+                 << "   DEF: " << this->player.statsComponent->def;
 
     this->eStats << "ENEMY LV: " << this->enemy.statsComponent->level << "\n"
-                 << "HEALTH: " << this->enemy.statsComponent->hp << " / "<<  this->enemy.statsComponent->hpMax << "\n"
-                 << "HEALS: " << this->enemy.statsComponent->heals << " / " << "3";
+                 << "HEALTH: " << this->enemy.statsComponent->hp << " / "<<  this->enemy.statsComponent->hpMax
+                 << "   HEALS: " << this->enemy.statsComponent->heals << " / " << "3" << "\n"
+                 << "ATK: " << this->enemy.statsComponent->atk
+                 << "    DEF: " << this->enemy.statsComponent->def;
 
     this->statInfoP.setString(pStats.str());
     this->statInfoE.setString(eStats.str());
