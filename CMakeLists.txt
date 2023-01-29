@@ -16,7 +16,6 @@ add_executable(alpha src/main.cpp src/game.cpp src/state.cpp src/battlestate.cpp
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 target_include_directories(alpha PRIVATE "include")
-target_include_directories(alpha PRIVATE "include/Core")
 target_include_directories(alpha PRIVATE "assets")
 target_link_libraries(alpha PRIVATE sfml-graphics sfml-window sfml-audio)
 
